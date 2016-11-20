@@ -1,0 +1,23 @@
+{
+  "name": "qv-automation",
+  "version": "0.0.1",
+  "description": "Gulp module for automating QV tasks",
+  "license": "MIT",
+  "repository": "https://github.com/countnazgul/qv-automation",
+  "author": {
+    "name": "Stefan Stoichev",
+    "email": "stefan.stoichev@gmail.com",
+    "url": "https://sstoichev.eu"
+  },
+  "dependencies": {
+    "del": "^2.2.1",
+    "progress-stream": "^1.2.0",
+    "gulp-messenger": "0.25.x",
+    "gulp": "^3.9.1",
+    "gulp-prompt": "0.2.0",
+    "mkdirp": "0.5.1",
+    "gulp-newer'": "1.3.0",
+    "through2'": "2.0.1",
+    "tab": "1.0.0"
+  }
+}
