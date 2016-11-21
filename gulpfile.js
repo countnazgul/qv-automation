@@ -71,8 +71,8 @@ for (var i = 0; i < settings.apps.length; i++) {
 availableApps.push('x) Cancel')
 
 function runQV(callback) {
-    console.log(fileNameFull)
-    console.log(fileNameBase)
+    // console.log(fileNameFull)
+    // console.log(fileNameBase)
     require('child_process').exec("qv.vbs " + fileNameFull + ' ' + fileNameBase+ ' ' + mainTemp , function (err, stdout, stderr) {
         if (err) {
             callback();
@@ -160,7 +160,7 @@ gulp.task('prompt', function () {
                         fileName = fileName[fileName.length - 1];
                         fileNameBase = fileName.replace('.qvw', '');
                         fileNameTemp = mainTemp + '\\' + fileNameBase;
-                        prjFolder = fileNameTemp + '/' + fileNameBase + '-prj';
+                        prjFolder = fileNameTemp + '\\' + fileNameBase + '-prj';
                         fileValidated = true;
                         repo = settings.apps[pos - 1].git
                     }
@@ -198,12 +198,13 @@ gulp.task('clear:tempAll', function () {
 });
 
 gulp.task('clear:tempApp', ['prompt'], function () {
-    del([mainTemp + '\\temp\\' + fileNameBase + '\\*'], function () {
+    del(mainTemp + '\\' + fileNameBase + '\\', { force: true },  function () {
         msg.Success('Temp folder cleared');
     });
 });
 
 gulp.task('clear:tempPrj', ['prompt'], function () {
+    //console.log(prjFolder)
     return del([prjFolder + '/*', '!'+prjFolder+'.git'], {force:true}, function () {
         msg.Success('Temp folder cleared');
     });
@@ -233,7 +234,7 @@ gulp.task('git:add', ['prompt'], function(){
 });
 
 gulp.task('git:commit', ['prompt'], function(){
-    console.log(prjFolder)
+    //console.log(prjFolder)
   return gulp.src(prjFolder + '/*')
     .pipe(git.commit('initial commit', { cwd: prjFolder, multiline: true, args: '' }));
 });
