@@ -35,6 +35,9 @@ var newer = require('gulp-newer');
 //var through = require('through2');
 var git = require('gulp-git');
 var mod_tab = require('tab');
+var argv = require('yargs').argv;
+var debug = require('gulp-debug');
+var async = require('async');
 
 var tempFolder = '';
 
@@ -42,7 +45,7 @@ var settings = JSON.parse(fs.readFileSync('settings.json'));
 var user = process.env['USERPROFILE'].split(path.sep)[2];
 var mainTemp = 'c:\\users\\' + user + '\\\Documents\\qv-automation\\temp';
 //var fileNameFull = 'c:\\Users\\Home\\Documents\\SO_40672979.qvw';
-var fileNameFull, fileName, fileNameBase, fileNameTemp, prjFolder, repo;
+var fileNameFull, fileName, fileNameBase, fileNameTemp, prjFolder, repo, locations, datafiles;
 var fileValidated = false;
 var availableApps = [];
 var availableAppsBack = [];
@@ -71,9 +74,7 @@ for (var i = 0; i < settings.apps.length; i++) {
 availableApps.push('x) Cancel')
 
 function runQV(callback) {
-    // console.log(fileNameFull)
-    // console.log(fileNameBase)
-    require('child_process').exec("qv.vbs " + fileNameFull + ' ' + fileNameBase+ ' ' + mainTemp , function (err, stdout, stderr) {
+    require('child_process').exec("qv.vbs " + '"' + fileNameFull + '" ' + fileNameBase + '" "' + mainTemp + '"', function (err, stdout, stderr) {
         if (err) {
             callback();
         }
@@ -82,7 +83,8 @@ function runQV(callback) {
 }
 
 function deploy(env) {
-    var _target = settings.locations[env];
+    var _target = locations[env];
+
     mkdirp.sync(_target);
     var stat = fs.statSync(fileNameFull);
     var str = progress({
@@ -137,6 +139,59 @@ function deploy(env) {
         .pipe(fs.createWriteStream(_target + '\\' + fileName))
 }
 
+function deployData(env, callback1) {
+    dataLocations = argv.data.split(',');
+
+    return async.eachSeries(dataLocations, function (dataLocation, callback) {
+        //callback();
+
+
+        async.eachSeries(datafiles, function (datafile, callback2) {
+            if (dataLocation == Object.keys(datafile)[0]) {
+                //console.log(datafiles[0]);
+                var key = Object.keys(datafile)[0];
+                var _target = datafile[key][env];
+                var _source = datafile[key]['dev'] + '/' + datafile[key]['filter']
+                mkdirp.sync(_target);
+                gulp.src(_source)
+                    .pipe(debug({ title: '' }))
+                    .pipe(gulp.dest(_target))
+                    .on('end', function () { callback2() })
+                //console.log(_source)
+            } else {
+                callback2();
+            }
+        }, function (err) {
+            callback();
+        });
+
+
+    }, function (err) {
+        callback1()
+    });
+
+
+
+    // for (var i = 0; i < dataLocations.length; i++) {
+    //     for (var d = 0; d < datafiles.length; d++) {
+    //         var key = Object.keys(datafiles[d])[0];
+    //         if (dataLocations[i] == Object.keys(datafiles[d])[0]) {
+    //             //console.log(datafiles[0]);
+    //             var _target = datafiles[d][key][env];
+    //             var _source = datafiles[d][key]['dev'] + '/' + datafiles[d][key]['filter']
+    //             mkdirp.sync(_target);
+    //             gulp.src(_source)
+    //                 .pipe(debug({ title: '' }))
+    //                 .pipe(gulp.dest(_target))
+    //             //console.log(_source)
+    //         }
+
+    //     }
+    // }
+}
+
+
+
 gulp.task('list:qvw', function () {
     for (var i = 0; i < settings.apps.length; i++) {
         msg.Success(settings.apps[i].qvw + ' --> ' + settings.apps[i].description);
@@ -149,7 +204,7 @@ gulp.task('prompt', function () {
             .pipe(prompt.prompt({
                 type: 'list',
                 name: 'qvw',
-                message: 'Whic h qvw?',
+                message: 'Which qvw?',
                 choices: availableApps
             }, function (res) {
                 if (res.qvw != 'x) Cancel') {
@@ -162,7 +217,9 @@ gulp.task('prompt', function () {
                         fileNameTemp = mainTemp + '\\' + fileNameBase;
                         prjFolder = fileNameTemp + '\\' + fileNameBase + '-prj';
                         fileValidated = true;
-                        repo = settings.apps[pos - 1].git
+                        repo = settings.apps[pos - 1].git;
+                        locations = settings.apps[pos - 1].locations;
+                        datafiles = settings.apps[pos - 1].datafiles;
                     }
                 } else {
                     msg.Info('Bye')
@@ -198,14 +255,14 @@ gulp.task('clear:tempAll', function () {
 });
 
 gulp.task('clear:tempApp', ['prompt'], function () {
-    del(mainTemp + '\\' + fileNameBase + '\\', { force: true },  function () {
+    del(mainTemp + '\\' + fileNameBase + '\\', { force: true }, function () {
         msg.Success('Temp folder cleared');
     });
 });
 
 gulp.task('clear:tempPrj', ['prompt'], function () {
     //console.log(prjFolder)
-    return del([prjFolder + '/*', '!'+prjFolder+'.git'], {force:true}, function () {
+    return del([prjFolder + '/*', '!' + prjFolder + '.git'], { force: true }, function () {
         msg.Success('Temp folder cleared');
     });
 });
@@ -222,27 +279,42 @@ gulp.task('deploy:test', ['prompt'], function () {
     deploy('test');
 });
 
-gulp.task('git:clone', ['prompt', 'clear:tempApp'], function(){
-  git.clone('https://github.com/countnazgul/test-prj', {args: prjFolder}, function (err) {
-    if (err) throw err;
-  });
+gulp.task('deploydata:prod', ['prompt'], function () {
+    deployData('deployProd', function () {
+    });
 });
 
-gulp.task('git:add', ['prompt'], function(){
-  return gulp.src(prjFolder + '/*')
-    .pipe(git.add({args: '', cwd: prjFolder}));
+gulp.task('deploydata:dev', ['prompt'], function () {
+    deployData('deployDev', function () {
+    });
 });
 
-gulp.task('git:commit', ['prompt'], function(){
+gulp.task('deploydata:test', ['prompt'], function () {
+    deployData('deployTest', function () {
+    });
+});
+
+gulp.task('git:clone', ['prompt', 'clear:tempApp'], function () {
+    git.clone('https://github.com/countnazgul/test-prj', { args: prjFolder }, function (err) {
+        if (err) throw err;
+    });
+});
+
+gulp.task('git:add', ['prompt'], function () {
+    return gulp.src(prjFolder + '/*')
+        .pipe(git.add({ args: '', cwd: prjFolder }));
+});
+
+gulp.task('git:commit', ['prompt'], function () {
     //console.log(prjFolder)
-  return gulp.src(prjFolder + '/*')
-    .pipe(git.commit('initial commit', { cwd: prjFolder, multiline: true, args: '' }));
+    return gulp.src(prjFolder + '/*')
+        .pipe(git.commit('initial commit', { cwd: prjFolder, multiline: true, args: '' }));
 });
 
-gulp.task('git:push', function(){
-  git.push('origin', 'master', {cwd: prjFolder},  function (err) {
-    if (err) throw err;
-  });
+gulp.task('git:push', function () {
+    git.push('origin', 'master', { cwd: prjFolder }, function (err) {
+        if (err) throw err;
+    });
 });
 
 // gulp.task('default',
