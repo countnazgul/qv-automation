@@ -36,7 +36,7 @@ var gulp = require('gulp');
         //var normalizedPath = path.join(__dirname);
 
         //fs.readdirSync(normalizedPath).forEach(function (file) {
-        require("./lib/qv-automate")('123');
+        require("./lib/qv-automate")(gulp);
         //done();
         
         

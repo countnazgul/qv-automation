@@ -3,6 +3,10 @@
 ### Not for use at the moment. 
 #### This should be converted to npm module
 
+#### Requirements
+ * Node JS
+ * Gulp 4
+
 Gulp script to automate QV tasks
 
   * Create `xml` structure from qvw file (the `prj` folder)
