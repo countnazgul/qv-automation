@@ -1,0 +1,51 @@
+{
+    "apps": [
+        {
+            "qvw": "c:\\Users\\Home\\Documents\\SO_38268332.qvw",
+            "description": "test qvw file",
+            "git": "https://github.com/countnazgul/test-prj.git",
+            "locations": {
+                "prod": "C:\\Users\\Home\\Documents\\GitHub\\qv-automation\\bla\\prod",
+                "dev": "C:\\Users\\Home\\Documents\\GitHub\\qv-automation\\bla\\dev",
+                "test": "C:\\Users\\Home\\Documents\\GitHub\\qv-automation\\bla\\test"
+            },
+            "datafiles": [
+                {
+                    "qvd": {
+                        "dev": "F:/Projects/Personal",
+                        "filter": "Range*.qvd",
+                        "deployProd": "C:/Users/Home/Documents/GitHub/qv-automation/blaData/prod/qvd",
+                        "deployDev": "C:/Users/Home/Documents/GitHub/qv-automation/blaData/dev/qvd",
+                        "deployTest": "C:/Users/Home/Documents/GitHub/qv-automation/blaData/test/qvd"
+                    }
+                },
+                {
+                    "excel": {
+                        "dev": "F:/Projects/Personal",
+                        "filter": "*.xls*",
+                        "deployProd": "C:/Users/Home/Documents/GitHub/qv-automation/blaData/prod/excel",
+                        "deployDev": "C:/Users/Home/Documents/GitHub/qv-automation/blaData/dev",
+                        "deployTest": "C:/Users/Home/Documents/GitHub/qv-automation/blaData/test"
+                    }
+                },
+                {
+                    "csv": {
+                        "dev": "F:/Projects/Personal/*.csv",
+                        "deployProd": "C:/Users/Home/Documents/GitHub/qv-automation/blaData/prod/csv",
+                        "deployDev": "C:/Users/Home/Documents/GitHub/qv-automation/blaData/dev",
+                        "deployTest": "C:/Users/Home/Documents/GitHub/qv-automation/blaData/test"
+                    }
+                }            
+        ]
+    },
+    {
+        "qvw": "c:\\Users\\Home\\Documents\\so1.qvw",
+        "description": "test qvw file",
+        "locations": {
+            "prod": "C:\\Users\\Home\\Documents\\GitHub\\qv-automation\\bla\\prod",
+            "dev": "C:\\Users\\Home\\Documents\\GitHub\\qv-automation\\bla\\dev",
+            "test": "C:\\Users\\Home\\Documents\\GitHub\\qv-automation\\bla\\test"
+        }
+    }
+]
+}

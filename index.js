@@ -14,7 +14,7 @@ var gulp = require('gulp');
         //console.log(gulp)
         //process.emit('senseGo_onRunStart');
         //try {
-            gulp.series(['test:a', 'test:b'], function (done) {
+            gulp.series(['test:b'], function (done) {
                 //process.emit('senseGo_onRunFinished');
                 //process.emit('senseGo_onEnd');
                 done();
