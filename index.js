@@ -29,7 +29,7 @@ function run() {
 }
 
 function _createTasks() {
-    require("./lib/qv-automate")(gulp);
+    require("./lib/qv-automate")(gulp, argv);
 }
 
     // return {
