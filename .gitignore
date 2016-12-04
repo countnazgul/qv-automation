@@ -3,4 +3,6 @@ temp/
 logs/
 bla/
 blaData/
+lib/tasks/test.js
 test.vbs
+settings.json

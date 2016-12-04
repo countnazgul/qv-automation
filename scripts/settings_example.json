@@ -3,7 +3,7 @@
         {
             "qvw": "c:\\Users\\Home\\Documents\\SO_38268332.qvw",
             "description": "test qvw file",
-            "git": "https://github.com/countnazgul/test-prj.git",
+            "git": "https://github.com/countnazgul/SO_38268332-prj.git",
             "locations": {
                 "prod": "C:\\Users\\Home\\Documents\\GitHub\\qv-automation\\bla\\prod",
                 "dev": "C:\\Users\\Home\\Documents\\GitHub\\qv-automation\\bla\\dev",

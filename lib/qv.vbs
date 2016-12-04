@@ -28,7 +28,7 @@ MyDocEmpty.CloseDoc
 'set MyDoc = MyApp.OpenDoc ( appPath )
 'MyApp.Quit
 
-'objFSO.DeleteFile tempFilePath
+objFSO.DeleteFile tempFilePath
  
 'Parameter:
 '1 - DocName
