@@ -12,7 +12,7 @@ The structure of the file is:
         |-- dev                      
         |-- test                     
     |-- datafiles                   -> array
-        |-- indicator1             -> user defined. String. no spaces are allowed. For example: qvd or excel or csv etc.
+        |-- indicator1              -> user defined. String. no spaces are allowed. For example: qvd or excel or csv etc.
             |-- dev                 -> path to the specific data files (add `\\` in the path)
             |-- filter              -> mask can be applied. For example: *_2016.qvd  
             |-- deployProd          -> prod location (add `\\` in the path)
