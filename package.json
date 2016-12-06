@@ -1,7 +1,7 @@
 {
   "name": "qv-automation",
   "version": "0.0.14",
-  "description": "Gulp module for automating QV tasks",
+  "description": "Gulp module for automating Qlik View tasks",
   "license": "MIT",
   "repository": "https://github.com/countnazgul/qv-automation",
   "author": {
