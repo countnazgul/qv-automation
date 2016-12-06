@@ -17,6 +17,7 @@
     "gulp-git": "^1.12.0",
     "gulp-messenger": "^0.25.x",
     "gulp-newer": "^1.3.0",
+    "gulp-plumber": "^1.1.0",
     "gulp-prompt": "^0.2.0",
     "gulp-scan": "^0.1.4",
     "mkdirp": "^0.5.1",
