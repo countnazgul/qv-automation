@@ -18,6 +18,30 @@
 
 * Same as **`build:dev`** but publish the `qvw` and the data in the `test` folder
 
+**`check:localPath`**
+
+* Local and network paths. Like `c:\data\qvd` or `\\data\qvd` 
+
+**`check:logFile`**
+
+* `Document Properties` --> `Generate Logfile` is checked
+
+**`check:synthKeys`**
+
+* Synthetic Keys in the data model
+
+**`check:macro`**
+
+* Macro module not empty
+
+**`check:macroOnOpen`**
+
+* Any macro modules on open
+
+**`check:macroOnPost`**
+
+* Any macro modules on post reload
+
 **`clear:tempAll`**
 
 * Remove the content of the root temp folder
