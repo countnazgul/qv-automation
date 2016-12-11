@@ -106,6 +106,10 @@
 
 * List all `qvw` files in `settings.json`
 
+**`list:tasks`**
+
+* List all available tasks
+
 **`prompt`**
 
 * Internal task that is used for user choices
