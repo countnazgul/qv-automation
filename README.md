@@ -21,7 +21,7 @@ Started with batch files but this have it's own disadvantages. And this is where
 ## Install
 To install it just open command prompt and run:
 
-`npm install -g qv-automate`
+`npm install -g qv-automation`
 
 After this `qv-automate` will be available to run from cwd.
 
